@@ -1,0 +1,108 @@
+"use client";
+
+import { useState } from "react";
+import { createClient } from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+
+export default function LoginPage() {
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
+
+    const supabase = createClient();
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+
+    if (error) {
+      setError(error.message);
+      setLoading(false);
+      return;
+    }
+
+    router.push("/");
+    router.refresh();
+  }
+
+  return (
+    <div className="min-h-screen flex">
+      {/* Left — form */}
+      <div className="flex flex-1 flex-col justify-between p-12 bg-white dark:bg-black">
+        <span className="text-xs tracking-widest uppercase text-zinc-400 dark:text-zinc-600">
+          daam.pl
+        </span>
+
+        <form onSubmit={handleSubmit} className="w-full max-w-xs space-y-10">
+          <div className="space-y-1">
+            <h1 className="text-sm font-medium tracking-tight">Sign in</h1>
+          </div>
+
+          <div className="space-y-6">
+            <div className="space-y-px">
+              <label htmlFor="email" className="block text-[11px] uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-2">
+                email
+              </label>
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="w-full border-b border-zinc-200 dark:border-zinc-800 bg-transparent py-2 text-sm outline-none transition-colors focus:border-zinc-900 dark:focus:border-zinc-100 placeholder:text-zinc-300 dark:placeholder:text-zinc-700"
+              />
+            </div>
+
+            <div className="space-y-px">
+              <label htmlFor="password" className="block text-[11px] uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-2">
+                password
+              </label>
+              <input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="w-full border-b border-zinc-200 dark:border-zinc-800 bg-transparent py-2 text-sm outline-none transition-colors focus:border-zinc-900 dark:focus:border-zinc-100"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            {error && (
+              <p className="text-[11px] text-red-400">{error}</p>
+            )}
+            <button
+              type="submit"
+              disabled={loading}
+              className="text-sm font-medium tracking-wide underline underline-offset-4 decoration-zinc-300 dark:decoration-zinc-700 hover:decoration-zinc-900 dark:hover:decoration-zinc-100 transition-colors disabled:opacity-30 cursor-pointer"
+            >
+              {loading ? "..." : "Sign in →"}
+            </button>
+          </div>
+        </form>
+
+        <span className="text-[11px] text-zinc-300 dark:text-zinc-700">
+          © {new Date().getFullYear()}
+        </span>
+      </div>
+
+      {/* Right — logo panel */}
+      <div className="hidden lg:flex flex-1 items-center justify-center bg-zinc-50 dark:bg-zinc-950">
+        <Image
+          src="/assets/logo.svg"
+          alt="daam.pl"
+          width={64}
+          height={64}
+          priority
+          className="opacity-10 dark:invert"
+        />
+      </div>
+    </div>
+  );
+}
