@@ -3,20 +3,7 @@
 import { useMemo, useState } from "react";
 
 const DAYS_SHORT = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
-const MONTHS = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 function getMonthGrid(year: number, month: number): (number | null)[][] {
   const firstDow = new Date(year, month, 1).getDay();
@@ -57,10 +44,7 @@ export default function Calendar({ rowSpan = 2 }: { rowSpan?: number }) {
   const [focusedDay, setFocusedDay] = useState<Date | null>(null);
   const [dayTarget, setDayTarget] = useState<Date>(today);
 
-  const monthGrid = useMemo(
-    () => getMonthGrid(displayYear, displayMonth),
-    [displayYear, displayMonth],
-  );
+  const monthGrid = useMemo(() => getMonthGrid(displayYear, displayMonth), [displayYear, displayMonth]);
   const weekDays = useMemo(() => getWeekDays(weekAnchor), [weekAnchor]);
 
   function shiftMonth(delta: -1 | 1) {
@@ -127,10 +111,7 @@ export default function Calendar({ rowSpan = 2 }: { rowSpan?: number }) {
         <div className="flex flex-col gap-y-0.5 leading-4">
           <div className="flex gap-x-1.5">
             {DAYS_SHORT.map((d) => (
-              <div
-                key={d}
-                className="uppercase tracking-widest text-zinc-400 dark:text-zinc-600 text-center w-5"
-              >
+              <div key={d} className="uppercase tracking-widest text-zinc-400 dark:text-zinc-600 text-center w-5">
                 {d}
               </div>
             ))}
@@ -139,41 +120,29 @@ export default function Calendar({ rowSpan = 2 }: { rowSpan?: number }) {
             const isSelectedWeek =
               view === "week" &&
               focusedDay !== null &&
-              week.some(
-                (day) =>
-                  day !== null &&
-                  isSameDay(
-                    new Date(displayYear, displayMonth, day),
-                    focusedDay,
-                  ),
-              );
+              week.some((day) => day !== null && isSameDay(new Date(displayYear, displayMonth, day), focusedDay));
+            const isDayWeek =
+              view === "day" && week.some((day) => day !== null && isSameDay(new Date(displayYear, displayMonth, day), dayTarget));
             return (
               <div
                 key={wi}
                 className={`flex gap-x-1.5 rounded ${
-                  isSelectedWeek ? "bg-zinc-100 dark:bg-zinc-800" : ""
+                  isSelectedWeek ? "bg-zinc-100 dark:bg-zinc-800" : isDayWeek ? "bg-zinc-200 dark:bg-zinc-700" : ""
                 }`}
               >
                 {week.map((day, di) => {
-                  const isToday =
-                    day === today.getDate() &&
-                    displayMonth === today.getMonth() &&
-                    displayYear === today.getFullYear();
+                  const isToday = day === today.getDate() && displayMonth === today.getMonth() && displayYear === today.getFullYear();
                   return (
                     <div
                       key={di}
                       onClick={day ? () => handleMonthDayClick(day) : undefined}
                       className={`text-center w-5 ${day ? "cursor-pointer" : ""} ${
-                        isSelectedWeek && day
+                        (isSelectedWeek || isDayWeek) && day
                           ? "text-zinc-900 dark:text-zinc-100"
                           : day
                             ? "text-zinc-500 dark:text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100"
                             : ""
-                      } ${
-                        isToday
-                          ? "text-zinc-900 dark:text-zinc-100 underline"
-                          : ""
-                      }`}
+                      } ${isToday ? "text-zinc-900 dark:text-zinc-100 underline" : ""}`}
                     >
                       {day ?? ""}
                     </div>
@@ -195,20 +164,12 @@ export default function Calendar({ rowSpan = 2 }: { rowSpan?: number }) {
                 key={i}
                 onClick={() => handleWeekDayClick(day)}
                 className={`flex flex-col border-r border-zinc-200 dark:border-zinc-800 last:border-r-0 px-3 py-2 cursor-pointer ${
-                  isToday
-                    ? "bg-zinc-50 dark:bg-zinc-950"
-                    : "hover:bg-zinc-50 dark:hover:bg-zinc-950"
+                  isToday ? "bg-zinc-50 dark:bg-zinc-950" : "hover:bg-zinc-50 dark:hover:bg-zinc-950"
                 }`}
               >
-                <div className="uppercase tracking-widest text-zinc-400 dark:text-zinc-600">
-                  {DAYS_SHORT[i]}
-                </div>
+                <div className="uppercase tracking-widest text-zinc-400 dark:text-zinc-600">{DAYS_SHORT[i]}</div>
                 <div
-                  className={`text-xs mt-1 ${
-                    isToday
-                      ? "text-zinc-900 dark:text-zinc-100 underline"
-                      : "text-zinc-500 dark:text-zinc-500"
-                  }`}
+                  className={`text-xs mt-1 ${isToday ? "text-zinc-900 dark:text-zinc-100 underline" : "text-zinc-500 dark:text-zinc-500"}`}
                 >
                   {day.getDate()}
                 </div>
@@ -221,12 +182,9 @@ export default function Calendar({ rowSpan = 2 }: { rowSpan?: number }) {
       {/* Day view */}
       {view === "day" && (
         <div className="flex-1 flex flex-col px-4 py-2">
-          <div className=" uppercase tracking-widest text-zinc-400 dark:text-zinc-600 mb-1">
-            {DAYS_SHORT[(dayTarget.getDay() + 6) % 7]}
-          </div>
+          <div className=" uppercase tracking-widest text-zinc-400 dark:text-zinc-600 mb-1">{DAYS_SHORT[(dayTarget.getDay() + 6) % 7]}</div>
           <div className="text-xs text-zinc-900 dark:text-zinc-100 underline">
-            {dayTarget.getDate()} {MONTHS[dayTarget.getMonth()]}{" "}
-            {dayTarget.getFullYear()}
+            {dayTarget.getDate()} {MONTHS[dayTarget.getMonth()]} {dayTarget.getFullYear()}
           </div>
         </div>
       )}

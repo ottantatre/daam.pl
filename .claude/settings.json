@@ -3,7 +3,10 @@
     "allow": [
       "Bash(npx create-next-app@latest . --ts --tailwind --eslint --app --src-dir --import-alias \"@/*\" --no-turbopack)",
       "Bash(npx vercel:*)",
-      "Bash(ls -la /Users/nientedigrave/work/ntg/daam.pl/*.ts /Users/nientedigrave/work/ntg/daam.pl/*.js)"
+      "Bash(ls -la /Users/nientedigrave/work/ntg/daam.pl/*.ts /Users/nientedigrave/work/ntg/daam.pl/*.js)",
+      "Bash(ls /Users/nientedigrave/work/ntg/daam.pl/next.config*)",
+      "Bash(cat /Users/nientedigrave/work/ntg/daam.pl/next.config*)",
+      "Bash(npm run:*)"
     ]
   }
 }

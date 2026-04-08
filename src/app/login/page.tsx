@@ -37,25 +37,16 @@ export default function LoginPage() {
     <div className="min-h-screen flex">
       {/* Left — form */}
       <div className="flex flex-1 flex-col justify-between p-12 bg-white dark:bg-black">
-        <span className="text-xs tracking-widest uppercase text-zinc-400 dark:text-zinc-600">
-          daam.pl
-        </span>
+        <span className="text-xs tracking-widest uppercase text-zinc-400 dark:text-zinc-600">daam.pl</span>
 
-        <form
-          onSubmit={handleSubmit}
-          noValidate
-          className="w-full max-w-xs space-y-10"
-        >
+        <form onSubmit={handleSubmit} noValidate className="w-full max-w-xs space-y-10">
           <div className="space-y-1">
             <h1 className="text-sm font-medium tracking-tight">Sign in</h1>
           </div>
 
           <div className="space-y-6">
             <div className="space-y-px">
-              <label
-                htmlFor="email"
-                className="block text-[11px] uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-2"
-              >
+              <label htmlFor="email" className="block text-[11px] uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-2">
                 email
               </label>
               <input
@@ -73,10 +64,7 @@ export default function LoginPage() {
             </div>
 
             <div className="space-y-px">
-              <label
-                htmlFor="password"
-                className="block text-[11px] uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-2"
-              >
+              <label htmlFor="password" className="block text-[11px] uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-2">
                 password
               </label>
               <input
@@ -103,21 +91,12 @@ export default function LoginPage() {
           </div>
         </form>
 
-        <span className="text-[11px] text-zinc-300 dark:text-zinc-700">
-          © {new Date().getFullYear()}
-        </span>
+        <span className="text-[11px] text-zinc-300 dark:text-zinc-700">© {new Date().getFullYear()}</span>
       </div>
 
       {/* Right — logo panel */}
       <div className="hidden lg:flex flex-1 items-center justify-center bg-zinc-50 dark:bg-zinc-950">
-        <Image
-          src="/assets/logo.svg"
-          alt="daam.pl"
-          width={64}
-          height={64}
-          priority
-          className="opacity-10 dark:invert"
-        />
+        <Image src="/assets/logo.svg" alt="daam.pl" width={64} height={64} priority className="opacity-10 dark:invert" />
       </div>
     </div>
   );

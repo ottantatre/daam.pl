@@ -53,11 +53,7 @@ export default function HamburgerMenu() {
         aria-expanded={open}
         className="flex items-center justify-center w-8 h-8 cursor-pointer text-zinc-900 dark:text-zinc-100"
       >
-        {open ? (
-          <X size={18} strokeWidth={1.5} />
-        ) : (
-          <Menu size={18} strokeWidth={1.5} />
-        )}
+        {open ? <X size={18} strokeWidth={1.5} /> : <Menu size={18} strokeWidth={1.5} />}
       </button>
 
       {open && (

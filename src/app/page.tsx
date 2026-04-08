@@ -21,14 +21,7 @@ export default async function Home() {
         </Grid>
       ) : (
         <div className="fixed inset-0 top-12 flex items-center justify-center">
-          <Image
-            src="/assets/logo.svg"
-            alt="daam.pl"
-            width={64}
-            height={64}
-            className="opacity-10 dark:invert"
-            priority
-          />
+          <Image src="/assets/logo.svg" alt="daam.pl" width={64} height={64} className="opacity-10 dark:invert" priority />
         </div>
       )}
     </>
