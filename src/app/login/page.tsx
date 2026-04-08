@@ -18,7 +18,10 @@ export default function LoginPage() {
     setLoading(true);
 
     const supabase = createClient();
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
 
     if (error) {
       setError(error.message);
@@ -38,14 +41,21 @@ export default function LoginPage() {
           daam.pl
         </span>
 
-        <form onSubmit={handleSubmit} noValidate className="w-full max-w-xs space-y-10">
+        <form
+          onSubmit={handleSubmit}
+          noValidate
+          className="w-full max-w-xs space-y-10"
+        >
           <div className="space-y-1">
             <h1 className="text-sm font-medium tracking-tight">Sign in</h1>
           </div>
 
           <div className="space-y-6">
             <div className="space-y-px">
-              <label htmlFor="email" className="block text-[11px] uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-2">
+              <label
+                htmlFor="email"
+                className="block text-[11px] uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-2"
+              >
                 email
               </label>
               <input
@@ -63,7 +73,10 @@ export default function LoginPage() {
             </div>
 
             <div className="space-y-px">
-              <label htmlFor="password" className="block text-[11px] uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-2">
+              <label
+                htmlFor="password"
+                className="block text-[11px] uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-2"
+              >
                 password
               </label>
               <input
@@ -79,9 +92,7 @@ export default function LoginPage() {
           </div>
 
           <div className="space-y-3">
-            {error && (
-              <p className="text-[11px] text-red-400">{error}</p>
-            )}
+            {error && <p className="text-[11px] text-red-400">{error}</p>}
             <button
               type="submit"
               disabled={loading}

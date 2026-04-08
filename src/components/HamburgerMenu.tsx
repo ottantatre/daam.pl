@@ -19,7 +19,9 @@ export default function HamburgerMenu() {
       setLoggedIn(!!data.user);
     });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
       setLoggedIn(!!session?.user);
     });
 
@@ -51,7 +53,11 @@ export default function HamburgerMenu() {
         aria-expanded={open}
         className="flex items-center justify-center w-8 h-8 cursor-pointer text-zinc-900 dark:text-zinc-100"
       >
-        {open ? <X size={18} strokeWidth={1.5} /> : <Menu size={18} strokeWidth={1.5} />}
+        {open ? (
+          <X size={18} strokeWidth={1.5} />
+        ) : (
+          <Menu size={18} strokeWidth={1.5} />
+        )}
       </button>
 
       {open && (
