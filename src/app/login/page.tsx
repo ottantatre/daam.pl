@@ -38,7 +38,7 @@ export default function LoginPage() {
           daam.pl
         </span>
 
-        <form onSubmit={handleSubmit} className="w-full max-w-xs space-y-10">
+        <form onSubmit={handleSubmit} noValidate className="w-full max-w-xs space-y-10">
           <div className="space-y-1">
             <h1 className="text-sm font-medium tracking-tight">Sign in</h1>
           </div>
@@ -54,6 +54,10 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                autoComplete="off"
+                autoCorrect="off"
+                autoCapitalize="off"
+                spellCheck={false}
                 className="w-full border-b border-zinc-200 dark:border-zinc-800 bg-transparent py-2 text-sm outline-none transition-colors focus:border-zinc-900 dark:focus:border-zinc-100 placeholder:text-zinc-300 dark:placeholder:text-zinc-700"
               />
             </div>
@@ -68,6 +72,7 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                autoComplete="new-password"
                 className="w-full border-b border-zinc-200 dark:border-zinc-800 bg-transparent py-2 text-sm outline-none transition-colors focus:border-zinc-900 dark:focus:border-zinc-100"
               />
             </div>

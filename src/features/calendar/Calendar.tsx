@@ -4,8 +4,18 @@ import { useMemo, useState } from "react";
 
 const DAYS_SHORT = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
 const MONTHS = [
-  "January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December",
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];
 
 function getMonthGrid(year: number, month: number): (number | null)[][] {
@@ -56,8 +66,14 @@ export default function Calendar({ rowSpan = 2 }: { rowSpan?: number }) {
   function shiftMonth(delta: -1 | 1) {
     setDisplayMonth((m) => {
       const next = m + delta;
-      if (next < 0) { setDisplayYear((y) => y - 1); return 11; }
-      if (next > 11) { setDisplayYear((y) => y + 1); return 0; }
+      if (next < 0) {
+        setDisplayYear((y) => y - 1);
+        return 11;
+      }
+      if (next > 11) {
+        setDisplayYear((y) => y + 1);
+        return 0;
+      }
       return next;
     });
   }
@@ -90,33 +106,35 @@ export default function Calendar({ rowSpan = 2 }: { rowSpan?: number }) {
       className="flex border-t border-zinc-200 dark:border-zinc-800 overflow-hidden"
     >
       {/* Month view */}
-      <div className="shrink-0 flex flex-col border-r border-zinc-200 dark:border-zinc-800 px-4 py-2">
-        <div className="flex items-center gap-1 mb-1.5">
+      <div className="shrink-0 flex flex-col border-r border-zinc-200 dark:border-zinc-800 px-4 py-2 gap-1.5 text-[10px]">
+        <div className="flex items-center gap-1 h-4">
           <button
             onClick={() => shiftMonth(-1)}
-            className="text-[9px] text-zinc-400 dark:text-zinc-600 hover:text-zinc-900 dark:hover:text-zinc-100 leading-none"
+            className="w-4 text-zinc-400 dark:text-zinc-600 hover:text-zinc-900 dark:hover:text-zinc-100 leading-none cursor-pointer"
           >
             ‹
           </button>
-          <div className="text-[9px] uppercase tracking-widest text-zinc-400 dark:text-zinc-600 flex-1 text-center">
+          <div className="uppercase tracking-widest text-zinc-400 dark:text-zinc-600 flex-1 text-center">
             {MONTHS[displayMonth]} {displayYear}
           </div>
           <button
             onClick={() => shiftMonth(1)}
-            className="text-[9px] text-zinc-400 dark:text-zinc-600 hover:text-zinc-900 dark:hover:text-zinc-100 leading-none"
+            className="w-4 text-zinc-400 dark:text-zinc-600 hover:text-zinc-900 dark:hover:text-zinc-100 leading-none cursor-pointer"
           >
             ›
           </button>
         </div>
-        <div className="grid grid-cols-7 gap-x-1.5 gap-y-0.5 text-[9px] leading-4">
-          {DAYS_SHORT.map((d) => (
-            <div
-              key={d}
-              className="uppercase tracking-widest text-zinc-400 dark:text-zinc-600 text-center w-5"
-            >
-              {d}
-            </div>
-          ))}
+        <div className="flex flex-col gap-y-0.5 leading-4">
+          <div className="flex gap-x-1.5">
+            {DAYS_SHORT.map((d) => (
+              <div
+                key={d}
+                className="uppercase tracking-widest text-zinc-400 dark:text-zinc-600 text-center w-5"
+              >
+                {d}
+              </div>
+            ))}
+          </div>
           {monthGrid.map((week, wi) => {
             const isSelectedWeek =
               view === "week" &&
@@ -124,31 +142,45 @@ export default function Calendar({ rowSpan = 2 }: { rowSpan?: number }) {
               week.some(
                 (day) =>
                   day !== null &&
-                  isSameDay(new Date(displayYear, displayMonth, day), focusedDay),
+                  isSameDay(
+                    new Date(displayYear, displayMonth, day),
+                    focusedDay,
+                  ),
               );
-            return week.map((day, di) => {
-              const isToday =
-                day === today.getDate() &&
-                displayMonth === today.getMonth() &&
-                displayYear === today.getFullYear();
-              return (
-                <div
-                  key={`${wi}-${di}`}
-                  onClick={day ? () => handleMonthDayClick(day) : undefined}
-                  className={`text-center w-5 ${day ? "cursor-pointer" : ""} ${
-                    isSelectedWeek && day
-                      ? "bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100"
-                      : isToday
-                        ? "text-zinc-900 dark:text-zinc-100 underline"
-                        : day
-                          ? "text-zinc-500 dark:text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100"
+            return (
+              <div
+                key={wi}
+                className={`flex gap-x-1.5 rounded ${
+                  isSelectedWeek ? "bg-zinc-100 dark:bg-zinc-800" : ""
+                }`}
+              >
+                {week.map((day, di) => {
+                  const isToday =
+                    day === today.getDate() &&
+                    displayMonth === today.getMonth() &&
+                    displayYear === today.getFullYear();
+                  return (
+                    <div
+                      key={di}
+                      onClick={day ? () => handleMonthDayClick(day) : undefined}
+                      className={`text-center w-5 ${day ? "cursor-pointer" : ""} ${
+                        isSelectedWeek && day
+                          ? "text-zinc-900 dark:text-zinc-100"
+                          : day
+                            ? "text-zinc-500 dark:text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100"
+                            : ""
+                      } ${
+                        isToday
+                          ? "text-zinc-900 dark:text-zinc-100 underline"
                           : ""
-                  }`}
-                >
-                  {day ?? ""}
-                </div>
-              );
-            });
+                      }`}
+                    >
+                      {day ?? ""}
+                    </div>
+                  );
+                })}
+              </div>
+            );
           })}
         </div>
       </div>
@@ -163,10 +195,12 @@ export default function Calendar({ rowSpan = 2 }: { rowSpan?: number }) {
                 key={i}
                 onClick={() => handleWeekDayClick(day)}
                 className={`flex flex-col border-r border-zinc-200 dark:border-zinc-800 last:border-r-0 px-3 py-2 cursor-pointer ${
-                  isToday ? "bg-zinc-50 dark:bg-zinc-950" : "hover:bg-zinc-50 dark:hover:bg-zinc-950"
+                  isToday
+                    ? "bg-zinc-50 dark:bg-zinc-950"
+                    : "hover:bg-zinc-50 dark:hover:bg-zinc-950"
                 }`}
               >
-                <div className="text-[9px] uppercase tracking-widest text-zinc-400 dark:text-zinc-600">
+                <div className="uppercase tracking-widest text-zinc-400 dark:text-zinc-600">
                   {DAYS_SHORT[i]}
                 </div>
                 <div
@@ -187,11 +221,12 @@ export default function Calendar({ rowSpan = 2 }: { rowSpan?: number }) {
       {/* Day view */}
       {view === "day" && (
         <div className="flex-1 flex flex-col px-4 py-2">
-          <div className="text-[9px] uppercase tracking-widest text-zinc-400 dark:text-zinc-600 mb-1">
+          <div className=" uppercase tracking-widest text-zinc-400 dark:text-zinc-600 mb-1">
             {DAYS_SHORT[(dayTarget.getDay() + 6) % 7]}
           </div>
           <div className="text-xs text-zinc-900 dark:text-zinc-100 underline">
-            {dayTarget.getDate()} {MONTHS[dayTarget.getMonth()]} {dayTarget.getFullYear()}
+            {dayTarget.getDate()} {MONTHS[dayTarget.getMonth()]}{" "}
+            {dayTarget.getFullYear()}
           </div>
         </div>
       )}

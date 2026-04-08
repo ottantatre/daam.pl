@@ -3,6 +3,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --grid-line: #e4e4e7;
 }
 
 @theme inline {
@@ -14,6 +15,7 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --grid-line: #18181b;
   }
 }
 
@@ -21,4 +23,26 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-mono), monospace;
+}
+
+/* Hide browser-injected input helpers */
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+}
+
+input::-webkit-contacts-auto-fill-button,
+input::-webkit-credentials-auto-fill-button,
+input::-webkit-search-decoration,
+input::-webkit-search-cancel-button {
+  display: none !important;
+  pointer-events: none;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px var(--background) inset;
+  -webkit-text-fill-color: var(--foreground);
+  transition: background-color 9999s ease-in-out 0s;
 }
