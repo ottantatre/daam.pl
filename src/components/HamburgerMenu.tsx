@@ -58,8 +58,8 @@ export function HamburgerMenu() {
 
       <div className="absolute w-full bottom-0 left-0">
         {open && (
-          <div className="absolute left-0 top-0 w-full h-[calc(100vh-3rem)] backdrop-blur-xs">
-            <div className="flex flex-col items-start gap-1 bg-zinc-50 w-full px-2">
+          <div className="absolute left-0 top-0 w-full h-[calc(100vh-3rem)] backdrop-blur-xs" onClick={() => setOpen(false)}>
+            <div className="flex flex-col items-start gap-1 bg-zinc-50 w-full px-2" onClick={(e) => e.stopPropagation()}>
               {loggedIn ? (
                 <button
                   onClick={handleSignOut}
