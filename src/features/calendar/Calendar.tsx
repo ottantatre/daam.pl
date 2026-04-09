@@ -87,23 +87,23 @@ export default function Calendar({ rowSpan = 2 }: { rowSpan?: number }) {
   return (
     <div
       style={{ gridColumn: "1 / -1", gridRow: `-${rowSpan + 1} / -1` }}
-      className="flex border-t border-zinc-200 dark:border-zinc-800 overflow-hidden"
+      className="flex border-t border-zinc-200 overflow-hidden"
     >
       {/* Month view */}
-      <div className="shrink-0 flex flex-col border-r border-zinc-200 dark:border-zinc-800 px-4 py-2 gap-1.5 text-[10px]">
+      <div className="shrink-0 flex flex-col border-r border-zinc-200 px-4 py-2 gap-1.5 text-[10px]">
         <div className="flex items-center gap-1 h-4">
           <button
             onClick={() => shiftMonth(-1)}
-            className="w-4 text-zinc-400 dark:text-zinc-600 hover:text-zinc-900 dark:hover:text-zinc-100 leading-none cursor-pointer"
+            className="w-4 text-zinc-400 hover:text-zinc-900 leading-none cursor-pointer"
           >
             ‹
           </button>
-          <div className="uppercase tracking-widest text-zinc-400 dark:text-zinc-600 flex-1 text-center">
+          <div className="uppercase tracking-widest text-zinc-400 flex-1 text-center">
             {MONTHS[displayMonth]} {displayYear}
           </div>
           <button
             onClick={() => shiftMonth(1)}
-            className="w-4 text-zinc-400 dark:text-zinc-600 hover:text-zinc-900 dark:hover:text-zinc-100 leading-none cursor-pointer"
+            className="w-4 text-zinc-400 hover:text-zinc-900 leading-none cursor-pointer"
           >
             ›
           </button>
@@ -111,7 +111,7 @@ export default function Calendar({ rowSpan = 2 }: { rowSpan?: number }) {
         <div className="flex flex-col gap-y-0.5 leading-4">
           <div className="flex gap-x-1.5">
             {DAYS_SHORT.map((d) => (
-              <div key={d} className="uppercase tracking-widest text-zinc-400 dark:text-zinc-600 text-center w-5">
+              <div key={d} className="uppercase tracking-widest text-zinc-400 text-center w-5">
                 {d}
               </div>
             ))}
@@ -127,7 +127,7 @@ export default function Calendar({ rowSpan = 2 }: { rowSpan?: number }) {
               <div
                 key={wi}
                 className={`flex gap-x-1.5 rounded ${
-                  isSelectedWeek ? "bg-zinc-100 dark:bg-zinc-800" : isDayWeek ? "bg-zinc-200 dark:bg-zinc-700" : ""
+                  isSelectedWeek ? "bg-zinc-100" : isDayWeek ? "bg-zinc-200" : ""
                 }`}
               >
                 {week.map((day, di) => {
@@ -138,11 +138,11 @@ export default function Calendar({ rowSpan = 2 }: { rowSpan?: number }) {
                       onClick={day ? () => handleMonthDayClick(day) : undefined}
                       className={`text-center w-5 ${day ? "cursor-pointer" : ""} ${
                         (isSelectedWeek || isDayWeek) && day
-                          ? "text-zinc-900 dark:text-zinc-100"
+                          ? "text-zinc-900"
                           : day
-                            ? "text-zinc-500 dark:text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100"
+                            ? "text-zinc-500 hover:text-zinc-900"
                             : ""
-                      } ${isToday ? "text-zinc-900 dark:text-zinc-100 underline" : ""}`}
+                      } ${isToday ? "text-zinc-900 underline" : ""}`}
                     >
                       {day ?? ""}
                     </div>
@@ -163,13 +163,13 @@ export default function Calendar({ rowSpan = 2 }: { rowSpan?: number }) {
               <div
                 key={i}
                 onClick={() => handleWeekDayClick(day)}
-                className={`flex flex-col border-r border-zinc-200 dark:border-zinc-800 last:border-r-0 px-3 py-2 cursor-pointer ${
-                  isToday ? "bg-zinc-50 dark:bg-zinc-950" : "hover:bg-zinc-50 dark:hover:bg-zinc-950"
+                className={`flex flex-col border-r border-zinc-200 last:border-r-0 px-3 py-2 cursor-pointer ${
+                  isToday ? "bg-zinc-50" : "hover:bg-zinc-50"
                 }`}
               >
-                <div className="uppercase tracking-widest text-zinc-400 dark:text-zinc-600">{DAYS_SHORT[i]}</div>
+                <div className="uppercase tracking-widest text-zinc-400">{DAYS_SHORT[i]}</div>
                 <div
-                  className={`text-xs mt-1 ${isToday ? "text-zinc-900 dark:text-zinc-100 underline" : "text-zinc-500 dark:text-zinc-500"}`}
+                  className={`text-xs mt-1 ${isToday ? "text-zinc-900 underline" : "text-zinc-500"}`}
                 >
                   {day.getDate()}
                 </div>
@@ -182,8 +182,8 @@ export default function Calendar({ rowSpan = 2 }: { rowSpan?: number }) {
       {/* Day view */}
       {view === "day" && (
         <div className="flex-1 flex flex-col px-4 py-2">
-          <div className=" uppercase tracking-widest text-zinc-400 dark:text-zinc-600 mb-1">{DAYS_SHORT[(dayTarget.getDay() + 6) % 7]}</div>
-          <div className="text-xs text-zinc-900 dark:text-zinc-100 underline">
+          <div className=" uppercase tracking-widest text-zinc-400 mb-1">{DAYS_SHORT[(dayTarget.getDay() + 6) % 7]}</div>
+          <div className="text-xs text-zinc-900 underline">
             {dayTarget.getDate()} {MONTHS[dayTarget.getMonth()]} {dayTarget.getFullYear()}
           </div>
         </div>

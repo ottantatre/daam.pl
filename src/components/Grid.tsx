@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 const CELL = 80;
 const HEADER = 48;
 
-export default function Grid({ children }: { children?: React.ReactNode }) {
+export function Grid({ children }: { children?: React.ReactNode }) {
   const [cols, setCols] = useState(0);
   const [rows, setRows] = useState(0);
 
