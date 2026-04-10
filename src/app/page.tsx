@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Header, Grid } from "@/components";
 import Calendar from "@/features/calendar/Calendar";
+import { fetchCalendars } from "@/lib/supabase/calendars";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function Home() {
@@ -9,12 +10,14 @@ export default async function Home() {
     data: { user },
   } = await supabase.auth.getUser();
 
+  const calendars = user ? await fetchCalendars() : [];
+
   return (
     <>
       <Header />
       {user ? (
         <Grid>
-          <Calendar />
+          <Calendar calendars={calendars} />
         </Grid>
       ) : (
         <div className="fixed inset-0 top-12 flex items-center justify-center">

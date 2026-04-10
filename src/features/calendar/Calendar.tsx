@@ -5,8 +5,9 @@ import { getMonthGrid, getWeekDays, isSameDay } from "./calendarUtils";
 import MonthView from "./MonthView";
 import WeekView from "./WeekView";
 import DayView from "./DayView";
+import { UserCalendar } from "./types";
 
-export default function Calendar({ rowSpan = 2 }: { rowSpan?: number }) {
+export default function Calendar({ rowSpan = 2, calendars = [] }: { rowSpan?: number; calendars?: UserCalendar[] }) {
   const today = useMemo(() => new Date(), []);
 
   const [displayYear, setDisplayYear] = useState(today.getFullYear());
@@ -56,7 +57,7 @@ export default function Calendar({ rowSpan = 2 }: { rowSpan?: number }) {
   }
 
   return (
-    <div style={{ gridColumn: "1 / -1", gridRow: `-${rowSpan + 1} / -1` }} className="flex  overflow-hidden">
+    <div style={{ gridColumn: "1 / -1", gridRow: `-${rowSpan + 1} / -1` }} className="flex overflow-hidden">
       <MonthView
         displayYear={displayYear}
         displayMonth={displayMonth}
@@ -71,7 +72,7 @@ export default function Calendar({ rowSpan = 2 }: { rowSpan?: number }) {
 
       {view === "week" && <WeekView weekDays={weekDays} onDayClick={handleWeekDayClick} />}
 
-      {view === "day" && <DayView dayTarget={dayTarget} />}
+      {view === "day" && <DayView dayTarget={dayTarget} calendars={calendars} />}
     </div>
   );
 }
