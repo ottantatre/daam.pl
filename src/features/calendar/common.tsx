@@ -6,5 +6,5 @@ interface CalendarCardProps {
 }
 
 export function CalendarCard({ children, className }: CalendarCardProps) {
-  return <div className={cn("flex flex-col p-2 bg-zinc-100 basis-full", className)}>{children}</div>;
+  return <div className={cn("flex flex-col p-2 bg-zinc-200 basis-full", className)}>{children}</div>;
 }
