@@ -6,6 +6,7 @@ import MonthView from "./MonthView";
 import WeekView from "./WeekView";
 import DayView from "./DayView";
 import { UserCalendar } from "./types";
+import CalendarPanel from "./Panel";
 
 export default function Calendar({ rowSpan = 2, calendars = [] }: { rowSpan?: number; calendars?: UserCalendar[] }) {
   const today = useMemo(() => new Date(), []);
@@ -57,7 +58,9 @@ export default function Calendar({ rowSpan = 2, calendars = [] }: { rowSpan?: nu
   }
 
   return (
-    <div style={{ gridColumn: "1 / -1", gridRow: `-${rowSpan + 1} / -1` }} className="flex overflow-hidden">
+    <div style={{ gridColumn: "1 / -1", gridRow: `-${rowSpan + 1} / -1` }} className="flex overflow-hidden p-2 gap-2">
+      <CalendarPanel />
+
       <MonthView
         displayYear={displayYear}
         displayMonth={displayMonth}

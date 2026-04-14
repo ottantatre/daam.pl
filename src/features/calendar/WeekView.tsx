@@ -9,12 +9,12 @@ type Props = {
 
 export default function WeekView({ weekDays, onDayClick }: Props) {
   return (
-    <div className="flex-1 grid grid-cols-7 gap-2 px-2">
+    <div className="flex-1 grid grid-cols-7 gap-2">
       {weekDays.map((day, i) => {
         const { isToday, isPast, isFuture } = getDayStatus(day);
 
         return (
-          <div key={i} onClick={() => onDayClick(day)} className={`flex py-2 text-[10px] cursor-pointer `}>
+          <div key={i} onClick={() => onDayClick(day)} className={`flex text-[10px] cursor-pointer `}>
             <CalendarCard
               className={cn("group", {
                 "bg-zinc-200 hover:bg-zinc-300": isToday,

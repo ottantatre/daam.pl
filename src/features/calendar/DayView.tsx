@@ -12,7 +12,7 @@ export default function DayView({ dayTarget, calendars = [] }: Props) {
   const dateStr = dayTarget.toISOString().slice(0, 10);
 
   return (
-    <div className="flex p-2 basis-full">
+    <div className="flex basis-full">
       <CalendarCard className="gap-2">
         <div className="flex gap-2 text-xs items-end">
           <span className="text-zinc-600">

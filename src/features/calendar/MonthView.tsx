@@ -27,7 +27,7 @@ export default function MonthView({
   onDayClick,
 }: Props) {
   return (
-    <div className="shrink-0 flex p-2 text-[10px]">
+    <div className="shrink-0 flex text-[10px]">
       <CalendarCard className="gap-1.25">
         <div className="flex items-center gap-1 h-4">
           <button
