@@ -1,32 +1,46 @@
+"use client";
+
 import { CalendarDays, Cog, LucideProps } from "lucide-react";
-import { CalendarCard } from "./common";
+import { CalendarCard } from "../common";
 import { ForwardRefExoticComponent, RefAttributes, useState } from "react";
 import { cn } from "@/lib/cn";
+import { UserCalendar } from "../types";
+import { CalendarLists } from "./CalenderLists";
+import { NewCalendarModal } from "./NewCalendarModal";
 
 type Option = "calendars" | "settings";
 
-export default function CalendarPanel() {
+interface CalendarPanelProps {
+  calendars: UserCalendar[];
+  visibleIds: Set<string>;
+  onToggle: (id: string) => void;
+}
+
+export default function CalendarPanel({ calendars, visibleIds, onToggle }: CalendarPanelProps) {
   const [activeOption, setActiveOption] = useState<Option | null>(null);
+  const [showModal, setShowModal] = useState(false);
 
   const handleOptionClick = (option: Option) => () => {
     setActiveOption((prev) => (prev === option ? null : option));
   };
 
   return (
-    <div className="shrink-0 flex text-[10px]">
+    <div className="shrink-0 flex text-small">
       <CalendarCard className="gap-2 flex-row">
-        <div className="flex flex-col gap-1.25 h-full">
+        <div className="flex flex-col gap-1 h-full">
           <ActionButton active={activeOption === "settings"} icon={Cog} onClick={handleOptionClick("settings")} />
-
           <ActionButton active={activeOption === "calendars"} icon={CalendarDays} onClick={handleOptionClick("calendars")} />
         </div>
         {activeOption !== null && (
-          <div className="border-l border-zinc-300 pl-2">
-            {activeOption === "calendars" && <div>Calendars</div>}
+          <div className="border-l border-zinc-300 pl-2 flex flex-col">
+            {activeOption === "calendars" && (
+              <CalendarLists calendars={calendars} visibleIds={visibleIds} onToggle={onToggle} onAdd={() => setShowModal(true)} />
+            )}
             {activeOption === "settings" && <div>Settings</div>}
           </div>
         )}
       </CalendarCard>
+      {showModal && <NewCalendarModal onClose={() => setShowModal(false)} />}
     </div>
   );
 }
@@ -43,7 +57,7 @@ function ActionButton({
   return (
     <button
       className={cn("p-0.5 text-zinc-500 hover:text-zinc-700 cursor-pointer", {
-        "bg-zinc-500 text-zinc-50 hover:bg-zinc-600 hover:text-zinc-100": active,
+        "bg-zinc-300 text-zinc-700 hover:text-zinc-900": active,
       })}
       onClick={onClick}
     >

@@ -6,7 +6,7 @@ import MonthView from "./MonthView";
 import WeekView from "./WeekView";
 import DayView from "./DayView";
 import { UserCalendar } from "./types";
-import CalendarPanel from "./Panel";
+import CalendarPanel from "./panel/Panel";
 
 export default function Calendar({ rowSpan = 2, calendars = [] }: { rowSpan?: number; calendars?: UserCalendar[] }) {
   const today = useMemo(() => new Date(), []);
@@ -17,6 +17,20 @@ export default function Calendar({ rowSpan = 2, calendars = [] }: { rowSpan?: nu
   const [view, setView] = useState<"week" | "day">("week");
   const [focusedDay, setFocusedDay] = useState<Date | null>(null);
   const [dayTarget, setDayTarget] = useState<Date>(today);
+  const [hiddenIds, setHiddenIds] = useState<Set<string>>(new Set());
+
+  const visibleIds = useMemo(() => new Set(calendars.map((c) => c.id).filter((id) => !hiddenIds.has(id))), [calendars, hiddenIds]);
+
+  const visibleCalendars = useMemo(() => calendars.filter((c) => !hiddenIds.has(c.id)), [calendars, hiddenIds]);
+
+  function toggleCalendar(id: string) {
+    setHiddenIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
 
   const monthGrid = useMemo(() => getMonthGrid(displayYear, displayMonth), [displayYear, displayMonth]);
   const weekDays = useMemo(() => getWeekDays(weekAnchor), [weekAnchor]);
@@ -59,7 +73,7 @@ export default function Calendar({ rowSpan = 2, calendars = [] }: { rowSpan?: nu
 
   return (
     <div style={{ gridColumn: "1 / -1", gridRow: `-${rowSpan + 1} / -1` }} className="flex overflow-hidden p-2 gap-2">
-      <CalendarPanel />
+      <CalendarPanel calendars={calendars} visibleIds={visibleIds} onToggle={toggleCalendar} />
 
       <MonthView
         displayYear={displayYear}
@@ -75,7 +89,7 @@ export default function Calendar({ rowSpan = 2, calendars = [] }: { rowSpan?: nu
 
       {view === "week" && <WeekView weekDays={weekDays} onDayClick={handleWeekDayClick} />}
 
-      {view === "day" && <DayView dayTarget={dayTarget} calendars={calendars} />}
+      {view === "day" && <DayView dayTarget={dayTarget} calendars={visibleCalendars} />}
     </div>
   );
 }

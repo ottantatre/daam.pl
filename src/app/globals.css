@@ -9,8 +9,13 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --text-extrasmall: 0.5625rem;
+  --text-extrasmall--line-height: 0.75rem;
+  --text-small: 0.6875rem;
+  --text-small--line-height: 0.875rem;
+  --text-medium: 0.78125rem;
+  --text-medium--line-height: 1rem;
 }
-
 
 body {
   background: var(--background);

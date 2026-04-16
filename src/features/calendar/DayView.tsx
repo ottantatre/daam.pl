@@ -14,11 +14,11 @@ export default function DayView({ dayTarget, calendars = [] }: Props) {
   return (
     <div className="flex basis-full">
       <CalendarCard className="gap-2">
-        <div className="flex gap-2 text-xs items-end">
+        <div className="flex gap-2 text-medium items-end">
           <span className="text-zinc-600">
             {dayTarget.getDate()} {MONTHS[dayTarget.getMonth()]} {dayTarget.getFullYear()}
           </span>
-          <span className="uppercase text-[10px] text-zinc-400">{DAYS_LONG[(dayTarget.getDay() + 6) % 7]}</span>
+          <span className="uppercase text-small text-zinc-400">{DAYS_LONG[(dayTarget.getDay() + 6) % 7]}</span>
         </div>
 
         <div className="relative overflow-x-auto flex-1">
@@ -27,7 +27,7 @@ export default function DayView({ dayTarget, calendars = [] }: Props) {
             {Array.from({ length: 24 }, (_, h) => (
               <div key={h} className="flex flex-col items-start min-w-10 bg-zinc-200 relative">
                 <span
-                  className={cn("text-[10px] bg-zinc-200 text-zinc-400 absolute bottom-0 -right-2 w-4 z-1 text-center", {
+                  className={cn("text-extrasmall bg-zinc-200 text-zinc-500 absolute bottom-0 -right-2 w-4 z-1 text-center", {
                     hidden: h === 23,
                   })}
                 >

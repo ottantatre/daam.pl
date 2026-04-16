@@ -14,7 +14,7 @@ export default function WeekView({ weekDays, onDayClick }: Props) {
         const { isToday, isPast, isFuture } = getDayStatus(day);
 
         return (
-          <div key={i} onClick={() => onDayClick(day)} className={`flex text-[10px] cursor-pointer `}>
+          <div key={i} onClick={() => onDayClick(day)} className={`flex text-small cursor-pointer `}>
             <CalendarCard
               className={cn("group", {
                 "bg-zinc-200 hover:bg-zinc-300": isToday,
@@ -25,7 +25,7 @@ export default function WeekView({ weekDays, onDayClick }: Props) {
               <div className="flex justify-between">
                 <div className="uppercase tracking-wide text-zinc-400">{DAYS_SHORT[i]}</div>
                 <div
-                  className={cn("text-xs", {
+                  className={cn("text-medium", {
                     "text-zinc-600 group-hover:text-zinc-800 underline": isToday,
                     "text-zinc-500 group-hover:text-zinc-700": !isToday,
                   })}

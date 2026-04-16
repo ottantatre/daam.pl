@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-const CELL = 80;
+const CELL = 90;
 const HEADER = 48;
 
 export function Grid({ children }: { children?: React.ReactNode }) {
