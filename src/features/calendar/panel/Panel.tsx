@@ -34,7 +34,15 @@ export default function CalendarPanel({ calendars, visibleIds, onToggle }: Calen
         {activeOption !== null && (
           <div className="border-l border-zinc-300 pl-2 flex flex-col">
             {activeOption === "calendars" && (
-              <CalendarLists calendars={calendars} visibleIds={visibleIds} onToggle={onToggle} onAdd={() => setShowModal(true)} />
+              <CalendarLists
+                calendars={calendars}
+                visibleIds={visibleIds}
+                onToggle={onToggle}
+                onAdd={() => setShowModal(true)}
+                onShare={(cal) => console.log("share", cal)}
+                onEdit={(cal) => console.log("edit", cal)}
+                onDelete={(cal) => console.log("delete", cal)}
+              />
             )}
             {activeOption === "settings" && <div>Settings</div>}
           </div>
