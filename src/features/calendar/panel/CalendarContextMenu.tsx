@@ -34,6 +34,7 @@ export function CalendarContextMenu({ top, left, onShare, onEdit, onDelete, onCl
             onShare();
             onClose();
           }}
+          disabled
         />
         <Item
           icon={CalendarCog}
@@ -53,7 +54,7 @@ export function CalendarContextMenu({ top, left, onShare, onEdit, onDelete, onCl
         />
       </div>
     </>,
-    document.body,
+    document.getElementById("modals")!,
   );
 }
 
@@ -61,16 +62,20 @@ function Item({
   icon: Icon,
   onClick,
   danger,
+  disabled,
 }: {
   icon: React.FC<{ size?: number; strokeWidth?: number }>;
   onClick: () => void;
   danger?: boolean;
+  disabled?: boolean;
 }) {
   return (
     <button
+      disabled={disabled}
       className={cn(
         "flex items-center gap-1.5 p-1 cursor-pointer hover:bg-zinc-200",
         danger ? "text-red-400 hover:text-red-600" : "text-zinc-600 hover:text-zinc-800",
+        disabled && "opacity-30 cursor-not-allowed hover:bg-transparent",
       )}
       onClick={onClick}
     >

@@ -1,48 +1,52 @@
 "use client";
 
-import { createClient } from "@/lib/supabase/client";
 import { useAsyncRefresh } from "@/lib/useAsyncRefresh";
 import { useState } from "react";
+import { UserCalendar } from "../types";
 import { Modal } from "@/components/Modal";
-import { COLOR_FAMILIES, DEFAULT_COLOR } from "../colors";
 import { ColorPicker } from "./ColorPicker";
 
-export function NewCalendarModal({ onClose, usedColors = [] }: { onClose: () => void; usedColors?: string[] }) {
-  const [name, setName] = useState("");
-  const [color, setColor] = useState(() => {
-    const used = new Set(usedColors);
-    if (!used.has(DEFAULT_COLOR)) return DEFAULT_COLOR;
-    return COLOR_FAMILIES.flat().find((c) => !used.has(c)) ?? DEFAULT_COLOR;
-  });
+export function EditCalendarModal({
+  calendar,
+  onClose,
+  usedColors = [],
+}: {
+  calendar: UserCalendar;
+  onClose: () => void;
+  usedColors?: string[];
+}) {
+  const [name, setName] = useState(calendar.name);
+  const [color, setColor] = useState(calendar.color);
   const [fetching, setFetching] = useState(false);
   const { isPending, refresh } = useAsyncRefresh(onClose);
 
   const busy = fetching || isPending;
 
-  const handleCreate = async () => {
+  const handleSave = async () => {
     if (!name.trim()) return;
     setFetching(true);
-    const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) { setFetching(false); return; }
-    await supabase.from("calendars").insert({ name: name.trim(), color, user_id: user.id });
+    await fetch(`/api/calendars/${calendar.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: name.trim(), color }),
+    });
     setFetching(false);
     refresh();
   };
 
   return (
     <Modal onClose={onClose}>
-      <span className="text-zinc-500 uppercase tracking-wider text-extrasmall">Nowy kalendarz</span>
+      <span className="text-zinc-500 uppercase tracking-wider text-extrasmall">Edytuj kalendarz</span>
       <input
         className="bg-zinc-200 px-2 py-1 text-zinc-800 outline-none placeholder:text-zinc-400"
         placeholder="nazwa"
         value={name}
         onChange={(e) => setName(e.target.value)}
-        onKeyDown={(e) => e.key === "Enter" && handleCreate()}
+        onKeyDown={(e) => e.key === "Enter" && handleSave()}
         autoComplete="off"
         autoFocus
       />
-      <ColorPicker value={color} onChange={setColor} disabled={usedColors} />
+      <ColorPicker value={color} onChange={setColor} disabled={usedColors.filter((c) => c !== calendar.color)} />
       <div className="flex gap-2 justify-end">
         <button className="text-zinc-400 hover:text-zinc-600 cursor-pointer" disabled={busy} onClick={onClose}>
           anuluj
@@ -50,9 +54,9 @@ export function NewCalendarModal({ onClose, usedColors = [] }: { onClose: () => 
         <button
           className="text-zinc-700 hover:text-zinc-900 cursor-pointer disabled:opacity-40"
           disabled={!name.trim() || busy}
-          onClick={handleCreate}
+          onClick={handleSave}
         >
-          utwórz
+          zapisz
         </button>
       </div>
     </Modal>

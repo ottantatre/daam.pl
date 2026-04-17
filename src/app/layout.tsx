@@ -29,7 +29,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${ibmPlexSans.variable} ${ibmPlexMono.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col font-mono">{children}</body>
+      <body className="min-h-full flex flex-col font-mono">
+        {children}
+        <div id="modals" />
+      </body>
     </html>
   );
 }

@@ -7,6 +7,8 @@ import { cn } from "@/lib/cn";
 import { UserCalendar } from "../types";
 import { CalendarLists } from "./CalenderLists";
 import { NewCalendarModal } from "./NewCalendarModal";
+import { EditCalendarModal } from "./EditCalendarModal";
+import { DeleteCalendarModal } from "./DeleteCalendarModal";
 
 type Option = "calendars" | "settings";
 
@@ -19,6 +21,8 @@ interface CalendarPanelProps {
 export default function CalendarPanel({ calendars, visibleIds, onToggle }: CalendarPanelProps) {
   const [activeOption, setActiveOption] = useState<Option | null>(null);
   const [showModal, setShowModal] = useState(false);
+  const [editCalendar, setEditCalendar] = useState<UserCalendar | null>(null);
+  const [deleteCalendar, setDeleteCalendar] = useState<UserCalendar | null>(null);
 
   const handleOptionClick = (option: Option) => () => {
     setActiveOption((prev) => (prev === option ? null : option));
@@ -39,16 +43,24 @@ export default function CalendarPanel({ calendars, visibleIds, onToggle }: Calen
                 visibleIds={visibleIds}
                 onToggle={onToggle}
                 onAdd={() => setShowModal(true)}
-                onShare={(cal) => console.log("share", cal)}
-                onEdit={(cal) => console.log("edit", cal)}
-                onDelete={(cal) => console.log("delete", cal)}
+                onShare={() => {}}
+                onEdit={(cal) => setEditCalendar(cal)}
+                onDelete={(cal) => setDeleteCalendar(cal)}
               />
             )}
             {activeOption === "settings" && <div>Settings</div>}
           </div>
         )}
       </CalendarCard>
-      {showModal && <NewCalendarModal onClose={() => setShowModal(false)} />}
+      {showModal && <NewCalendarModal usedColors={calendars.map((c) => c.color)} onClose={() => setShowModal(false)} />}
+      {editCalendar && (
+        <EditCalendarModal
+          calendar={editCalendar}
+          usedColors={calendars.map((c) => c.color)}
+          onClose={() => setEditCalendar(null)}
+        />
+      )}
+      {deleteCalendar && <DeleteCalendarModal calendar={deleteCalendar} onClose={() => setDeleteCalendar(null)} />}
     </div>
   );
 }
