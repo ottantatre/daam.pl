@@ -6,7 +6,21 @@
       "Bash(ls -la /Users/nientedigrave/work/ntg/daam.pl/*.ts /Users/nientedigrave/work/ntg/daam.pl/*.js)",
       "Bash(ls /Users/nientedigrave/work/ntg/daam.pl/next.config*)",
       "Bash(cat /Users/nientedigrave/work/ntg/daam.pl/next.config*)",
-      "Bash(npm run:*)"
+      "Bash(npm run:*)",
+      "Bash(grep -r \"reactCompiler\\\\|react-compiler\\\\|babel-plugin-react\" /Users/nientedigrave/work/ntg/daam.pl/next.config* /Users/nientedigrave/work/ntg/daam.pl/.babelrc*)",
+      "Bash(npm uninstall:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npx supabase:*)",
+      "Bash(git -C /Users/nientedigrave/work/ntg/daam.pl status)",
+      "Bash(git -C /Users/nientedigrave/work/ntg/daam.pl log --oneline -3)",
+      "Bash(git -C /Users/nientedigrave/work/ntg/daam.pl add src/features/calendar/ src/lib/supabase/ src/lib/supabase/database.types.ts supabase/migrations/ package.json)",
+      "Bash(git -C /Users/nientedigrave/work/ntg/daam.pl commit -m ':*)",
+      "Bash(git -C /Users/nientedigrave/work/ntg/daam.pl push origin main)",
+      "Bash(node -e ':*)"
+    ],
+    "additionalDirectories": [
+      "/Users/nientedigrave/work/ntg/daam.pl/src/app/api/calendars/[calendarId]/events",
+      "/Users/nientedigrave/work/ntg/daam.pl/src/app/api/calendars/[calendarId]"
     ]
   }
 }

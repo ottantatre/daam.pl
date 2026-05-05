@@ -49,7 +49,7 @@ export default function MonthView({
         <div className="flex flex-col gap-y-0.5 leading-4">
           <div className="flex gap-x-1.5">
             {DAYS_SHORT.map((d) => (
-              <div key={d} className="uppercase tracking-widest text-zinc-400 text-center w-5">
+              <div key={d} className="uppercase tracking-widest text-extrasmall text-zinc-500 text-center w-5 pb-1">
                 {d}
               </div>
             ))}
@@ -59,22 +59,21 @@ export default function MonthView({
               view === "week" &&
               focusedDay !== null &&
               week.some((day) => day !== null && isSameDay(new Date(displayYear, displayMonth, day), focusedDay));
-            const isDayWeek =
-              view === "day" && week.some((day) => day !== null && isSameDay(new Date(displayYear, displayMonth, day), dayTarget));
             return (
-              <div key={wi} className={cn("flex gap-x-1.5 rounded", isSelectedWeek && "bg-zinc-300", isDayWeek && "bg-zinc-200")}>
+              <div key={wi} className={cn("flex gap-x-1.5 rounded", isSelectedWeek && "bg-zinc-300")}>
                 {week.map((day, di) => {
                   const isToday = day === today.getDate() && displayMonth === today.getMonth() && displayYear === today.getFullYear();
+                  const isSelectedDay = view === "day" && day !== null && isSameDay(new Date(displayYear, displayMonth, day), dayTarget);
                   return (
                     <div
                       key={di}
                       onClick={day ? () => onDayClick(day) : undefined}
                       className={cn(
-                        "text-center w-5",
+                        "text-center w-5 rounded",
                         day && "cursor-pointer",
                         isSelectedWeek && day && "text-zinc-900",
-                        isDayWeek && day && "text-zinc-700",
-                        day && !(isSelectedWeek || isDayWeek) && "text-zinc-500 hover:text-zinc-900",
+                        isSelectedDay && "bg-zinc-300 text-zinc-900",
+                        day && !isSelectedWeek && !isSelectedDay && "text-zinc-500 hover:text-zinc-900",
                         isToday && "text-zinc-900 underline",
                       )}
                     >

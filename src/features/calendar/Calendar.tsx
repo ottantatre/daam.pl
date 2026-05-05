@@ -7,6 +7,7 @@ import WeekView from "./WeekView";
 import DayView from "./DayView";
 import { UserCalendar } from "./types";
 import CalendarPanel from "./panel/Panel";
+import { NewEventModal } from "./NewEventModal";
 
 export default function Calendar({ rowSpan = 2, calendars = [] }: { rowSpan?: number; calendars?: UserCalendar[] }) {
   const today = useMemo(() => new Date(), []);
@@ -18,6 +19,7 @@ export default function Calendar({ rowSpan = 2, calendars = [] }: { rowSpan?: nu
   const [focusedDay, setFocusedDay] = useState<Date | null>(null);
   const [dayTarget, setDayTarget] = useState<Date>(today);
   const [hiddenIds, setHiddenIds] = useState<Set<string>>(new Set());
+  const [newEventDate, setNewEventDate] = useState<Date | null>(null);
 
   const visibleIds = useMemo(() => new Set(calendars.map((c) => c.id).filter((id) => !hiddenIds.has(id))), [calendars, hiddenIds]);
 
@@ -87,9 +89,15 @@ export default function Calendar({ rowSpan = 2, calendars = [] }: { rowSpan?: nu
         onDayClick={handleMonthDayClick}
       />
 
-      {view === "week" && <WeekView weekDays={weekDays} onDayClick={handleWeekDayClick} />}
+      {view === "week" && (
+        <WeekView weekDays={weekDays} calendars={visibleCalendars} onDayClick={handleWeekDayClick} onAddEvent={setNewEventDate} />
+      )}
 
       {view === "day" && <DayView dayTarget={dayTarget} calendars={visibleCalendars} />}
+
+      {newEventDate && (
+        <NewEventModal calendars={calendars} defaultDate={newEventDate} onClose={() => setNewEventDate(null)} />
+      )}
     </div>
   );
 }

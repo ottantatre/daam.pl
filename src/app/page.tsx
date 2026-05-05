@@ -12,6 +12,8 @@ export default async function Home() {
 
   const calendars = user ? await fetchCalendars() : [];
 
+  console.log("clendars", calendars);
+
   return (
     <>
       <Header />

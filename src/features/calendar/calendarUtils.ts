@@ -42,3 +42,17 @@ export function getDayStatus(d: Date) {
   const diff = copy.getTime() - today.getTime();
   return { isPast: diff < 0, isToday: diff === 0, isFuture: diff > 0 };
 }
+
+export function formatDateISO(d: Date): string {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
+export function isDateTimePast(dateISO: string, timeHHMM: string): boolean {
+  const [y, m, d] = dateISO.split("-").map(Number);
+  const [hh, mm] = timeHHMM.split(":").map(Number);
+  const target = new Date(y, (m ?? 1) - 1, d ?? 1, hh ?? 0, mm ?? 0, 0, 0);
+  return target.getTime() < Date.now();
+}

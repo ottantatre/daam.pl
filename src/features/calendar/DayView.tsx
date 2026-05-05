@@ -1,5 +1,5 @@
 import { cn } from "@/lib/cn";
-import { DAYS_LONG, MONTHS } from "./calendarUtils";
+import { DAYS_LONG, formatDateISO, MONTHS } from "./calendarUtils";
 import { CalendarCard } from "./common";
 import { eventPosition, UserCalendar } from "./types";
 
@@ -9,7 +9,7 @@ type Props = {
 };
 
 export default function DayView({ dayTarget, calendars = [] }: Props) {
-  const dateStr = dayTarget.toISOString().slice(0, 10);
+  const dateStr = formatDateISO(dayTarget);
 
   return (
     <div className="flex basis-full">
