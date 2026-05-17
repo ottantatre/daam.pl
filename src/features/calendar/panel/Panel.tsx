@@ -3,7 +3,7 @@
 import { CalendarDays, Cog, LucideProps } from "lucide-react";
 import { CalendarCard } from "../common";
 import { ForwardRefExoticComponent, RefAttributes, useState } from "react";
-import { cn } from "@/lib/cn";
+import { cn } from "@/lib/utils";
 import { UserCalendar } from "../types";
 import { CalendarLists } from "./CalenderLists";
 import { NewCalendarModal } from "./NewCalendarModal";

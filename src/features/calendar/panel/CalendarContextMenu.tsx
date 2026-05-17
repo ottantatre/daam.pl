@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/cn";
+import { cn } from "@/lib/utils";
 import { CalendarArrowUp, CalendarCog, CalendarX2 } from "lucide-react";
 import { createPortal } from "react-dom";
 

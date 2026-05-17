@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
+import { cn } from "@/lib/utils";
 
 const ibmPlexSans = IBM_Plex_Sans({
   variable: "--font-sans",
@@ -11,7 +12,7 @@ const ibmPlexSans = IBM_Plex_Sans({
 const ibmPlexMono = IBM_Plex_Mono({
   variable: "--font-mono",
   subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -28,7 +29,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${ibmPlexSans.variable} ${ibmPlexMono.variable} h-full antialiased`}>
+    <html lang="en" className={cn("h-full", "antialiased", ibmPlexSans.variable, ibmPlexMono.variable, "font-mono")}>
       <body className="min-h-full flex flex-col font-mono">
         {children}
         <div id="modals" />

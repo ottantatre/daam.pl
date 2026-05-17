@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { EllipsisVertical } from "lucide-react";
-import { cn } from "@/lib/cn";
+import { cn } from "@/lib/utils";
 import { UserCalendar } from "../types";
 import { CalendarContextMenu } from "./CalendarContextMenu";
 

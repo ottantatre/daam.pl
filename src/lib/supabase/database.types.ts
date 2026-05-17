@@ -7,8 +7,6 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instantiate createClient with right options
-  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "14.5"
   }
@@ -241,6 +239,205 @@ export type Database = {
           },
         ]
       }
+      push_subscriptions: {
+        Row: {
+          auth: string
+          created_at: string | null
+          endpoint: string
+          id: string
+          p256dh: string
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          auth: string
+          created_at?: string | null
+          endpoint: string
+          id?: string
+          p256dh: string
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          auth?: string
+          created_at?: string | null
+          endpoint?: string
+          id?: string
+          p256dh?: string
+          user_agent?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      stock_scans: {
+        Row: {
+          created_at: string | null
+          id: string
+          notes: string | null
+          scan_date: string
+          status: string
+          triggered_by: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          notes?: string | null
+          scan_date: string
+          status?: string
+          triggered_by?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          notes?: string | null
+          scan_date?: string
+          status?: string
+          triggered_by?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      stock_sets: {
+        Row: {
+          aggregate_pnl_pct: number | null
+          bought_at: string | null
+          created_at: string | null
+          hit_target_at: string | null
+          id: string
+          notes: string | null
+          scan_id: string
+          sold_at: string | null
+          status: Database["public"]["Enums"]["stock_set_status"]
+          target_pct: number
+          user_id: string
+        }
+        Insert: {
+          aggregate_pnl_pct?: number | null
+          bought_at?: string | null
+          created_at?: string | null
+          hit_target_at?: string | null
+          id?: string
+          notes?: string | null
+          scan_id: string
+          sold_at?: string | null
+          status?: Database["public"]["Enums"]["stock_set_status"]
+          target_pct?: number
+          user_id: string
+        }
+        Update: {
+          aggregate_pnl_pct?: number | null
+          bought_at?: string | null
+          created_at?: string | null
+          hit_target_at?: string | null
+          id?: string
+          notes?: string | null
+          scan_id?: string
+          sold_at?: string | null
+          status?: Database["public"]["Enums"]["stock_set_status"]
+          target_pct?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stock_sets_scan_id_fkey"
+            columns: ["scan_id"]
+            isOneToOne: false
+            referencedRelation: "stock_scans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stock_set_items: {
+        Row: {
+          actual_entry_price: number | null
+          actual_exit_price: number | null
+          atr: number | null
+          closed_at: string | null
+          created_at: string | null
+          exchange: string
+          exit_reason: string | null
+          gap_pct: number | null
+          hit_1pct_at: string | null
+          id: string
+          max_pct_observed: number | null
+          min_pct_observed: number | null
+          opened_at: string | null
+          quantity: number | null
+          rank: number
+          rationale: string | null
+          set_id: string
+          status: Database["public"]["Enums"]["stock_set_item_status"]
+          suggested_entry_price: number
+          suggested_stop_loss: number
+          ticker: string
+          user_id: string
+          volume_ratio: number | null
+          xtb_symbol: string
+        }
+        Insert: {
+          actual_entry_price?: number | null
+          actual_exit_price?: number | null
+          atr?: number | null
+          closed_at?: string | null
+          created_at?: string | null
+          exchange: string
+          exit_reason?: string | null
+          gap_pct?: number | null
+          hit_1pct_at?: string | null
+          id?: string
+          max_pct_observed?: number | null
+          min_pct_observed?: number | null
+          opened_at?: string | null
+          quantity?: number | null
+          rank?: number
+          rationale?: string | null
+          set_id: string
+          status?: Database["public"]["Enums"]["stock_set_item_status"]
+          suggested_entry_price: number
+          suggested_stop_loss: number
+          ticker: string
+          user_id: string
+          volume_ratio?: number | null
+          xtb_symbol: string
+        }
+        Update: {
+          actual_entry_price?: number | null
+          actual_exit_price?: number | null
+          atr?: number | null
+          closed_at?: string | null
+          created_at?: string | null
+          exchange?: string
+          exit_reason?: string | null
+          gap_pct?: number | null
+          hit_1pct_at?: string | null
+          id?: string
+          max_pct_observed?: number | null
+          min_pct_observed?: number | null
+          opened_at?: string | null
+          quantity?: number | null
+          rank?: number
+          rationale?: string | null
+          set_id?: string
+          status?: Database["public"]["Enums"]["stock_set_item_status"]
+          suggested_entry_price?: number
+          suggested_stop_loss?: number
+          ticker?: string
+          user_id?: string
+          volume_ratio?: number | null
+          xtb_symbol?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stock_set_items_set_id_fkey"
+            columns: ["set_id"]
+            isOneToOne: false
+            referencedRelation: "stock_sets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -251,6 +448,8 @@ export type Database = {
     Enums: {
       calendar_role: "author" | "admin" | "editor" | "creator" | "viewer"
       invite_status: "pending" | "accepted" | "declined"
+      stock_set_status: "proposed" | "bought" | "sold" | "skipped"
+      stock_set_item_status: "pending" | "open" | "stopped_out" | "closed_with_set"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -380,6 +579,8 @@ export const Constants = {
     Enums: {
       calendar_role: ["author", "admin", "editor", "creator", "viewer"],
       invite_status: ["pending", "accepted", "declined"],
+      stock_set_status: ["proposed", "bought", "sold", "skipped"],
+      stock_set_item_status: ["pending", "open", "stopped_out", "closed_with_set"],
     },
   },
 } as const

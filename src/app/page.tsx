@@ -2,7 +2,9 @@ import Image from "next/image";
 import { Header, Grid } from "@/components";
 import Calendar from "@/features/calendar/Calendar";
 import { fetchCalendars } from "@/lib/supabase/calendars";
+import { fetchStocksData } from "@/lib/supabase/stocks";
 import { createClient } from "@/lib/supabase/server";
+import Stocks from "@/features/stocks/Stocks";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -10,15 +12,14 @@ export default async function Home() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const calendars = user ? await fetchCalendars() : [];
-
-  console.log("clendars", calendars);
+  const [calendars, stocks] = await Promise.all([fetchCalendars(), fetchStocksData()]);
 
   return (
     <>
       <Header />
       {user ? (
         <Grid>
+          <Stocks sets={stocks.sets} />
           <Calendar calendars={calendars} />
         </Grid>
       ) : (

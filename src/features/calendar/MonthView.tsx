@@ -1,7 +1,7 @@
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { DAYS_SHORT, MONTHS, isSameDay } from "./calendarUtils";
 import { CalendarCard } from "./common";
-import { cn } from "@/lib/cn";
+import { cn } from "@/lib/utils";
 
 type Props = {
   displayYear: number;

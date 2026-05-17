@@ -1,4 +1,4 @@
-import { cn } from "@/lib/cn";
+import { cn } from "@/lib/utils";
 import { DAYS_SHORT, formatDateISO, getDayStatus } from "./calendarUtils";
 import { CalendarCard } from "./common";
 import { Plus } from "lucide-react";
