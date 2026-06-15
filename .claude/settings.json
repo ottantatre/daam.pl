@@ -3,5 +3,19 @@
     "allow": [
       "Bash(npx create-next-app@latest . --ts --tailwind --eslint --app --src-dir --import-alias \"@/*\" --no-turbopack)"
     ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/privacy-policy-reminder.sh\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
   }
 }

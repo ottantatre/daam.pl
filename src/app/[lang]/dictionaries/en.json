@@ -1,0 +1,23 @@
+{
+  "nav": {
+    "about": "About",
+    "offer": "Offer"
+  },
+  "footer": {
+    "privacy": "Privacy Policy"
+  },
+  "pages": {
+    "about": {
+      "title": "About",
+      "body": "Page under construction. More about me and what I do, coming soon."
+    },
+    "offer": {
+      "title": "Offer",
+      "body": "Page under construction. Details of the offer, coming soon."
+    },
+    "privacy": {
+      "title": "Privacy Policy",
+      "body": "The privacy policy will be published soon."
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "nav": {
+    "about": "O mnie",
+    "offer": "Oferta"
+  },
+  "footer": {
+    "privacy": "Polityka prywatności"
+  },
+  "pages": {
+    "about": {
+      "title": "O mnie",
+      "body": "Strona w przygotowaniu. Wkrótce więcej o mnie i o tym, czym się zajmuję."
+    },
+    "offer": {
+      "title": "Oferta",
+      "body": "Strona w przygotowaniu. Wkrótce szczegóły oferty."
+    },
+    "privacy": {
+      "title": "Polityka prywatności",
+      "body": "Polityka prywatności zostanie opublikowana wkrótce."
+    }
+  }
+}

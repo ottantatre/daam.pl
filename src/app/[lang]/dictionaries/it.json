@@ -1,0 +1,23 @@
+{
+  "nav": {
+    "about": "Chi sono",
+    "offer": "Offerta"
+  },
+  "footer": {
+    "privacy": "Informativa privacy"
+  },
+  "pages": {
+    "about": {
+      "title": "Chi sono",
+      "body": "Pagina in costruzione. Presto maggiori informazioni su di me e su ciò di cui mi occupo."
+    },
+    "offer": {
+      "title": "Offerta",
+      "body": "Pagina in costruzione. Presto i dettagli dell'offerta."
+    },
+    "privacy": {
+      "title": "Informativa sulla privacy",
+      "body": "L'informativa sulla privacy sarà pubblicata a breve."
+    }
+  }
+}
