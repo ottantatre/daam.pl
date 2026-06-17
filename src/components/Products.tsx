@@ -15,12 +15,12 @@ export function Products({ lang, title }: { lang: Locale; title: string }) {
   const utils = utilsContent[lang];
 
   return (
-    <div className="w-full max-w-prose self-center">
+    <div className="w-full max-w-2xl self-center">
       <h1 className="text-base font-medium uppercase tracking-[0.2em] text-zinc-100">
         {title}
       </h1>
 
-      <div className="mt-10 flex flex-col gap-12">
+      <div className="mt-10 grid grid-cols-1 gap-10 sm:grid-cols-2">
         <section>
           <h2 className={sectionLabel}>{t.free}</h2>
           <ul className="mt-4">
