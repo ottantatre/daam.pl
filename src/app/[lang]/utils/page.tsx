@@ -20,29 +20,28 @@ export default async function UtilsPage({ params }: Props) {
   const content = utilsContent[lang];
 
   return (
-    <div className="w-full max-w-prose self-center">
+    <div className="w-full max-w-2xl self-center">
       <h1 className="text-base font-medium uppercase tracking-[0.2em] text-zinc-100">
         {content.title}
       </h1>
       <p className="mt-2 text-sm text-zinc-500">{content.intro}</p>
 
-      <ul className="mt-8">
+      <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3">
         {utilsTools.map((slug) => (
-          <li key={slug}>
-            <Link
-              href={`/${lang}/utils/${slug}`}
-              className="group flex flex-col gap-1 border-t border-zinc-800 py-5 transition-colors hover:border-zinc-600"
-            >
-              <span className="text-sm uppercase tracking-[0.18em] text-zinc-200 transition-colors group-hover:text-zinc-100">
-                {content.tools[slug].name}
-              </span>
-              <span className="text-sm text-zinc-500">
-                {content.tools[slug].description}
-              </span>
-            </Link>
-          </li>
+          <Link
+            key={slug}
+            href={`/${lang}/utils/${slug}`}
+            className="group flex flex-col gap-1.5 border border-zinc-800 p-4 transition-colors hover:border-zinc-600"
+          >
+            <span className="text-xs uppercase tracking-[0.12em] text-zinc-200 transition-colors group-hover:text-zinc-100">
+              {content.tools[slug].name}
+            </span>
+            <span className="text-[11px] leading-relaxed text-zinc-500">
+              {content.tools[slug].description}
+            </span>
+          </Link>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
