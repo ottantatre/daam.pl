@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import type { PasswordGeneratorLabels } from "@/content/utils";
+import { useState } from "react";
+import type { Locale } from "@/lib/i18n";
+import { CopyButton, textButton } from "./ui";
 
 const SETS = {
   uppercase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
@@ -13,7 +14,6 @@ const SETS = {
 type SetKey = keyof typeof SETS;
 const SET_KEYS = Object.keys(SETS) as SetKey[];
 
-// Unbiased index in [0, max) using rejection sampling over Web Crypto.
 function randomIndex(max: number): number {
   const limit = Math.floor(0x100000000 / max) * max;
   const buf = new Uint32Array(1);
@@ -30,12 +30,10 @@ function makePassword(length: number, enabled: Record<SetKey, boolean>): string 
   if (sets.length === 0) return "";
   const all = sets.join("");
   const chars: string[] = [];
-  // Guarantee at least one char from each selected set (when there is room).
   for (const set of sets) {
     if (chars.length < length) chars.push(set[randomIndex(set.length)]);
   }
   while (chars.length < length) chars.push(all[randomIndex(all.length)]);
-  // Fisher–Yates shuffle so the guaranteed chars aren't front-loaded.
   for (let i = chars.length - 1; i > 0; i--) {
     const j = randomIndex(i + 1);
     [chars[i], chars[j]] = [chars[j], chars[i]];
@@ -43,7 +41,14 @@ function makePassword(length: number, enabled: Record<SetKey, boolean>): string 
   return chars.join("");
 }
 
-export function PasswordGenerator({ labels }: { labels: PasswordGeneratorLabels }) {
+const S: Record<Locale, Record<SetKey | "length" | "generate" | "empty" | "atLeastOne", string>> = {
+  pl: { length: "Długość", uppercase: "Wielkie litery", lowercase: "Małe litery", digits: "Cyfry", symbols: "Symbole", generate: "Generuj", empty: "—", atLeastOne: "Zaznacz przynajmniej jeden zestaw znaków." },
+  en: { length: "Length", uppercase: "Uppercase", lowercase: "Lowercase", digits: "Digits", symbols: "Symbols", generate: "Generate", empty: "—", atLeastOne: "Select at least one character set." },
+  it: { length: "Lunghezza", uppercase: "Maiuscole", lowercase: "Minuscole", digits: "Numeri", symbols: "Simboli", generate: "Genera", empty: "—", atLeastOne: "Seleziona almeno un set di caratteri." },
+};
+
+export function PasswordGenerator({ locale }: { locale: Locale }) {
+  const t = S[locale];
   const [length, setLength] = useState(16);
   const [enabled, setEnabled] = useState<Record<SetKey, boolean>>({
     uppercase: true,
@@ -52,68 +57,32 @@ export function PasswordGenerator({ labels }: { labels: PasswordGeneratorLabels 
     symbols: false,
   });
   const [password, setPassword] = useState("");
-  const [copied, setCopied] = useState(false);
-  const copyTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const hasSet = SET_KEYS.some((k) => enabled[k]);
 
-  // Clear the "copied" timer on unmount.
-  useEffect(
-    () => () => {
-      if (copyTimer.current) clearTimeout(copyTimer.current);
-    },
-    [],
-  );
-
-  const update = (next: string) => {
-    setPassword(next);
-    setCopied(false);
-  };
-
   const changeLength = (value: number) => {
     setLength(value);
-    update(makePassword(value, enabled));
+    setPassword(makePassword(value, enabled));
   };
 
   const toggle = (key: SetKey) => {
     const next = { ...enabled, [key]: !enabled[key] };
     setEnabled(next);
-    update(makePassword(length, next));
-  };
-
-  const generate = () => update(makePassword(length, enabled));
-
-  const copy = async () => {
-    if (!password) return;
-    try {
-      await navigator.clipboard.writeText(password);
-      setCopied(true);
-      if (copyTimer.current) clearTimeout(copyTimer.current);
-      copyTimer.current = setTimeout(() => setCopied(false), 1500);
-    } catch {
-      // clipboard unavailable — ignore
-    }
+    setPassword(makePassword(length, next));
   };
 
   return (
-    <div className="mt-6 flex flex-col gap-8">
+    <div className="flex flex-col gap-8">
       <div className="flex items-center gap-4 border-b border-zinc-800 pb-4">
         <p className="min-h-6 flex-1 break-all font-mono text-base text-zinc-100">
-          {password || labels.empty}
+          {password || t.empty}
         </p>
-        <button
-          type="button"
-          onClick={copy}
-          disabled={!password}
-          className="shrink-0 text-[10px] uppercase tracking-[0.25em] text-zinc-400 underline-offset-4 hover:text-zinc-100 hover:underline disabled:opacity-40"
-        >
-          {copied ? labels.copied : labels.copy}
-        </button>
+        <CopyButton value={password} locale={locale} />
       </div>
 
       <div className="flex flex-col gap-2">
         <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.25em] text-zinc-400">
-          <span>{labels.length}</span>
+          <span>{t.length}</span>
           <span className="tabular-nums text-zinc-200">{length}</span>
         </div>
         <input
@@ -122,7 +91,7 @@ export function PasswordGenerator({ labels }: { labels: PasswordGeneratorLabels 
           max={48}
           value={length}
           onChange={(e) => changeLength(Number(e.target.value))}
-          aria-label={labels.length}
+          aria-label={t.length}
           className="w-full accent-zinc-400"
         />
       </div>
@@ -133,31 +102,17 @@ export function PasswordGenerator({ labels }: { labels: PasswordGeneratorLabels 
             key={k}
             className="flex cursor-pointer items-center gap-2.5 text-[10px] uppercase tracking-[0.2em] text-zinc-400"
           >
-            <input
-              type="checkbox"
-              checked={enabled[k]}
-              onChange={() => toggle(k)}
-              className="size-3.5 accent-zinc-400"
-            />
-            {labels[k]}
+            <input type="checkbox" checked={enabled[k]} onChange={() => toggle(k)} className="size-3.5 accent-zinc-400" />
+            {t[k]}
           </label>
         ))}
       </div>
 
       <div className="flex items-center justify-between gap-4">
-        <button
-          type="button"
-          onClick={generate}
-          disabled={!hasSet}
-          className="text-[11px] uppercase tracking-[0.25em] text-zinc-200 underline underline-offset-4 hover:text-zinc-100 disabled:no-underline disabled:opacity-40"
-        >
-          {labels.generate}
+        <button type="button" onClick={() => setPassword(makePassword(length, enabled))} disabled={!hasSet} className={textButton}>
+          {t.generate}
         </button>
-        {!hasSet && (
-          <span className="text-right text-[10px] tracking-wide text-zinc-500">
-            {labels.atLeastOne}
-          </span>
-        )}
+        {!hasSet && <span className="text-right text-[10px] tracking-wide text-zinc-500">{t.atLeastOne}</span>}
       </div>
     </div>
   );
