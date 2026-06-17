@@ -10,7 +10,7 @@ type Props = {
 
 export function Header({ lang, nav }: Props) {
   return (
-    <header className="grid grid-cols-[1fr_40px_1fr] items-center p-6 pb-8 text-[11px] uppercase tracking-[0.25em] text-zinc-400">
+    <header className="sticky top-0 z-50 grid grid-cols-[1fr_40px_1fr] items-center bg-black/60 p-6 pb-8 text-[11px] uppercase tracking-[0.25em] text-zinc-400 backdrop-blur-sm">
       <div className="flex justify-end pr-8">
         <Link
           href={pageHref(lang, "about")}

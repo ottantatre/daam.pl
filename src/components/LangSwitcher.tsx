@@ -7,13 +7,17 @@ import { pageKeyForSlug, slugs } from "@/lib/routes";
 
 export function LangSwitcher({ current }: { current: Locale }) {
   const pathname = usePathname();
-  const currentSlug = pathname.split("/").filter(Boolean)[1];
+  const rest = pathname.split("/").filter(Boolean).slice(1); // path after the locale
 
   const hrefFor = (target: Locale) => {
-    if (!currentSlug) return `/${target}`;
-    // Translate the localized slug into the target locale's equivalent.
-    const key = pageKeyForSlug(current, currentSlug);
-    return key ? `/${target}/${slugs[key][target]}` : `/${target}`;
+    if (rest.length === 0) return `/${target}`;
+    // A single localized page slug → translate it to the target locale.
+    if (rest.length === 1) {
+      const key = pageKeyForSlug(current, rest[0]);
+      if (key) return `/${target}/${slugs[key][target]}`;
+    }
+    // Fixed routes (e.g. /utils/...) keep their path; just swap the locale.
+    return `/${target}/${rest.join("/")}`;
   };
 
   return (
