@@ -5,7 +5,7 @@ import { pageHref } from "@/lib/routes";
 
 type Props = {
   lang: Locale;
-  nav: { about: string; offer: string };
+  nav: { about: string; products: string };
 };
 
 export function Header({ lang, nav }: Props) {
@@ -38,10 +38,10 @@ export function Header({ lang, nav }: Props) {
 
       <div className="flex justify-start pl-8">
         <Link
-          href={pageHref(lang, "offer")}
+          href={pageHref(lang, "products")}
           className="transition-colors hover:text-zinc-100"
         >
-          {nav.offer}
+          {nav.products}
         </Link>
       </div>
     </header>

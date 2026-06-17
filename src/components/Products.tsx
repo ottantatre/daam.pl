@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Locale } from "@/lib/i18n";
 import { utilsContent } from "@/content/utils";
 
-export function Offer({ lang, title }: { lang: Locale; title: string }) {
+export function Products({ lang, title }: { lang: Locale; title: string }) {
   const utils = utilsContent[lang];
 
   return (

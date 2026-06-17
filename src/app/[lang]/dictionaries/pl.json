@@ -1,7 +1,7 @@
 {
   "nav": {
     "about": "O mnie",
-    "offer": "Oferta"
+    "products": "Produkty"
   },
   "footer": {
     "privacy": "Polityka prywatności"
@@ -11,9 +11,9 @@
       "title": "O mnie",
       "body": "Strona w przygotowaniu. Wkrótce więcej o mnie i o tym, czym się zajmuję."
     },
-    "offer": {
-      "title": "Oferta",
-      "body": "Strona w przygotowaniu. Wkrótce szczegóły oferty."
+    "products": {
+      "title": "Produkty",
+      "body": "Narzędzia i eksperymenty."
     },
     "privacy": {
       "title": "Polityka prywatności",

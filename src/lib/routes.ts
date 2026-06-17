@@ -1,11 +1,11 @@
 import type { Locale } from "./i18n";
 
-export type PageKey = "about" | "offer" | "privacy";
+export type PageKey = "about" | "products" | "privacy";
 
 // Localized URL slug for each page, per locale.
 export const slugs: Record<PageKey, Record<Locale, string>> = {
   about: { pl: "o-mnie", en: "about", it: "chi-sono" },
-  offer: { pl: "oferta", en: "offer", it: "offerta" },
+  products: { pl: "produkty", en: "products", it: "prodotti" },
   privacy: {
     pl: "polityka-prywatnosci",
     en: "privacy-policy",

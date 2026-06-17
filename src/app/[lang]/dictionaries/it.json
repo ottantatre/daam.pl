@@ -1,7 +1,7 @@
 {
   "nav": {
     "about": "Chi sono",
-    "offer": "Offerta"
+    "products": "Prodotti"
   },
   "footer": {
     "privacy": "Informativa privacy"
@@ -11,9 +11,9 @@
       "title": "Chi sono",
       "body": "Pagina in costruzione. Presto maggiori informazioni su di me e su ciò di cui mi occupo."
     },
-    "offer": {
-      "title": "Offerta",
-      "body": "Pagina in costruzione. Presto i dettagli dell'offerta."
+    "products": {
+      "title": "Prodotti",
+      "body": "Strumenti ed esperimenti."
     },
     "privacy": {
       "title": "Informativa sulla privacy",

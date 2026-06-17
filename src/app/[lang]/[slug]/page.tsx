@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Offer } from "@/components/Offer";
+import { Products } from "@/components/Products";
 import { PageContent } from "@/components/PageContent";
 import { PrivacyPolicy } from "@/components/PrivacyPolicy";
 import { privacyPolicy } from "@/content/privacy";
@@ -38,8 +38,8 @@ export default async function ContentPage({ params }: Props) {
 
   const dict = await getDictionary(lang);
 
-  if (key === "offer") {
-    return <Offer lang={lang} title={dict.pages.offer.title} />;
+  if (key === "products") {
+    return <Products lang={lang} title={dict.pages.products.title} />;
   }
 
   return <PageContent title={dict.pages[key].title} body={dict.pages[key].body} />;

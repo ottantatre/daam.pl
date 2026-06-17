@@ -1,7 +1,7 @@
 {
   "nav": {
     "about": "About",
-    "offer": "Offer"
+    "products": "Products"
   },
   "footer": {
     "privacy": "Privacy Policy"
@@ -11,9 +11,9 @@
       "title": "About",
       "body": "Page under construction. More about me and what I do, coming soon."
     },
-    "offer": {
-      "title": "Offer",
-      "body": "Page under construction. Details of the offer, coming soon."
+    "products": {
+      "title": "Products",
+      "body": "Tools and experiments."
     },
     "privacy": {
       "title": "Privacy Policy",
